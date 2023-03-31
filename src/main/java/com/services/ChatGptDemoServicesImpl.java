@@ -3,8 +3,12 @@ package com.services;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
 import cn.hutool.json.JSONObject;
+import com.pojo.TimeDemo;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,5 +39,45 @@ public class ChatGptDemoServicesImpl implements ChatGptDemoServices{
         System.out.println(response.body());
 
         return response.body();
+    }
+
+    @Override
+    public TimeDemo Love() throws InterruptedException, ParseException {
+        String ln = "\r\n";
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis()); // this object contains the current date value
+        //System.out.println(date);
+        //System.out.println(System.currentTimeMillis());
+        System.out.println("现在的时间是" + formatter.format(date));
+
+        long c = System.currentTimeMillis() - dateToStamp("2023-2-24 11:14:00");
+        long s = c / 1000;
+        long m = s / 60;
+        long h = m / 60;
+        long d = h / 24;
+        TimeDemo timeDemo=new TimeDemo(d,s,m,h);
+        //System.out.println("我们已经认识了: "+s+"秒， "+m+"分钟，"+h+"小时，"+d+"天");
+       // String s1="如果以天为单位，我们已经认识了：" + d + "天"+ln+"以小时为单位，我们已经认识了：" + h + "小时"+ln+"以分钟为单位，我们已经认识了：" + m + "分钟"+ln+"以秒为单位则，我们已经认识了：" + s + "秒";
+
+        return timeDemo;
+    }
+
+    /**
+     * 时间变为时间戳
+     * @param s
+     * @return
+     * @throws ParseException
+     */
+    public static long dateToStamp(String s) throws ParseException {
+        String res;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(s);
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+        long ts = date.getTime();
+        return ts;
     }
 }
